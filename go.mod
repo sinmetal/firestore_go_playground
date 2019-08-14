@@ -2,6 +2,7 @@ module github.com/sinmetal/firestore_go_playground
 
 require (
 	cloud.google.com/go v0.44.3
+	cloud.google.com/go/datastore v1.0.0
 	github.com/google/go-cmp v0.3.1 // indirect
 	github.com/google/pprof v0.0.0-20190723021845-34ac40c74b70 // indirect
 	github.com/hashicorp/golang-lru v0.5.3 // indirect
@@ -11,6 +12,7 @@ require (
 	golang.org/x/net v0.0.0-20190813141303-74dc4d7220e7 // indirect
 	golang.org/x/sys v0.0.0-20190813064441-fde4db37ae7a // indirect
 	golang.org/x/tools v0.0.0-20190813214729-9dba7caff850 // indirect
+	google.golang.org/api v0.8.0
 	google.golang.org/grpc v1.23.0 // indirect
 	honnef.co/go/tools v0.0.1-2019.2.2 // indirect
 )
