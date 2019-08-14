@@ -4,39 +4,53 @@ import (
 	"context"
 	"flag"
 	"fmt"
-
-	"cloud.google.com/go/firestore"
+	"time"
 )
+
+type Row struct {
+	User      string
+	Favos     []string
+	CreatedAt time.Time
+}
 
 func main() {
 	fmt.Println("start")
 
 	project := flag.String("project", "hogeproject", "project")
 	flag.Parse()
-	fmt.Printf("project=%s", *project)
+	fmt.Printf("project=%s\n", *project)
 
 	ctx := context.Background()
-	client, err := firestore.NewClient(ctx, *project)
-	defer client.Close()
+	ds, err := NewDatastoreClient(ctx, *project)
+	if err != nil {
+		panic(err)
+	}
+	_, err = ds.Put(ctx)
 	if err != nil {
 		panic(err)
 	}
 
-	iter := client.Collection("world-default-player-position").Snapshots(ctx)
-	defer iter.Stop()
-	for {
-		dociter, err := iter.Next()
-		if err != nil {
-			panic(err)
-		}
-		dslist, err := dociter.GetAll()
-		if err != nil {
-			panic(err)
-		}
-		for _, v := range dslist {
-			fmt.Printf("%+v", v.Data())
-		}
+	fs, err := NewFirestoreClient(ctx, *project)
+	if err != nil {
+		panic(err)
 	}
+	_, err = fs.Set(ctx, "FirestoreRoot1")
+	if err != nil {
+		panic(err)
+	}
+	_, err = fs.Set(ctx, "FirestoreRoot2")
+	if err != nil {
+		panic(err)
+	}
+
+	fmt.Println("Query1")
+	fs.Query1(ctx, "FirestoreSample")
+
+	fmt.Println("Query2")
+	fs.Query2(ctx, "SubCol")
+
+	fmt.Println("Query3")
+	fs.Query3(ctx, "SubCol")
 
 	fmt.Println("end")
 }
